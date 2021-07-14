@@ -1,0 +1,66 @@
+
+<div class="form-wrapper col-md-10 mx-auto col-lg-5">
+  <h2>Register an Account</h2>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="p-4 p-md-5 border rounded-3 bg-light">
+    <div class="form-floating mb-3">
+      <label for="firstName">First Name</label>
+      <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name">
+      <div class="alert alert alert-danger" *ngIf="!firstName.valid && (firstName.touched || userSubmitted)">
+        Please fill up the text Box.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="lastName">Last Name</label>
+      <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="LastName">
+      <div class="alert alert alert-danger" *ngIf="!lastName.valid && (lastName.touched  || userSubmitted)">
+        Please fill up the text Box.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" formControlName="email" placeholder="name@example.com">
+      <div class="alert alert alert-danger" *ngIf="!email.valid && (email.touched || userSubmitted)">
+        <span *ngIf="email.hasError('required')">
+          Please fill up the text Box.
+        </span>
+        <span *ngIf="email.hasError('email')">
+          Please enter a valid email.
+        </span>
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="address">Address</label>
+      <input type="text" class="form-control" id="address" formControlName="address" placeholder="Address">
+      <div class="alert alert alert-danger" *ngIf="!address.valid && (address.touched || userSubmitted)">
+        Please fill up the text Box.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="phoneNumber">Phone/Mobile Number</label>
+      <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="2321323213">
+      <div class="alert alert alert-danger" *ngIf="!phoneNumber.valid && (phoneNumber.touched || userSubmitted)">
+        Please enter a valid number.
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+      <div class="alert alert alert-danger" *ngIf="!password.valid && (password.touched || userSubmitted)">
+        <span *ngIf="password.hasError('required')">
+          Please fill up the text Box.
+        </span>
+        <span *ngIf="password.errors.minlength">
+          password must be 8-16 characters long
+        </span>
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Password">
+      <div class="alert alert alert-danger" *ngIf="registrationForm.hasError('notmatched') && confirmPassword.valid">
+        Password not match
+      </div>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+  </form>
+</div>

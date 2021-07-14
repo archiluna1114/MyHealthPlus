@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>MyHealthPlusDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{3cf68400-8b39-48fb-8cfe-87b2383d5b2b}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DB</RootNamespace>
+    <AssemblyName>DB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Table" />
+    <Folder Include="dbo\StoredProcedures" />
+    <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Scripts\PostDeployment" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Table\Users.sql" />
+    <Build Include="dbo\Table\Roles.sql" />
+    <Build Include="dbo\Table\Appointments.sql" />
+    <Build Include="dbo\Table\Comments.sql" />
+    <Build Include="dbo\StoredProcedures\User_Insert.sql" />
+    <Build Include="dbo\Table\AppointmentTypes.sql" />
+    <None Include="dbo\Scripts\PostDeployment\Roles.sql" />
+    <Build Include="dbo\StoredProcedures\User_GetByUserId.sql" />
+    <Build Include="dbo\StoredProcedures\User_GetUserList.sql" />
+    <Build Include="dbo\StoredProcedures\User_GetUserByEmail.sql" />
+    <Build Include="dbo\Table\AppointmentTime.sql" />
+    <Build Include="dbo\StoredProcedures\Appointment_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\Appointment_GetAppointmentById.sql" />
+    <Build Include="dbo\StoredProcedures\Appointment_GetTodayAppointments.sql" />
+    <Build Include="dbo\StoredProcedures\Appointment_GetAppointmentByUserId.sql" />
+    <Build Include="dbo\StoredProcedures\Appointment_GetAvailableTimeSlotBySelectedDate.sql" />
+    <Build Include="dbo\StoredProcedures\Comment_Insert.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\Scripts\PostDeployment\AppointmentTypes.sql" />
+    <None Include="dbo\Scripts\PostDeployment\Users.sql" />
+    <None Include="dbo\Scripts\PostDeployment\AppointmentTime.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Scripts\PostDeployment\Script.PostDeployment1.sql" />
+  </ItemGroup>
+</Project>

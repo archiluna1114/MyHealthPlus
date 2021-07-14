@@ -1,0 +1,142 @@
+<!--FOR ADMIN-->
+<div *ngIf="currentUser && roleId<3">
+  <h2>My Appointments For Today</h2>
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="appointments">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time Slot</th>
+        <th>Appointment Type</th>
+        <th>Name</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.AppointmentDate }}</td>
+        <td>{{ appointment.DisplayTime }}</td>
+        <td>{{ appointment.Title }}</td>
+        <td>{{ appointment.FirstName }} {{ appointment.LastName }}</td>
+        <td>{{ appointment.Comment }} <button *ngIf="roleId<2" class="btn btn-primary float-right" (click)="onAddCommentCLick(comment,appointment.AppointmentId)">ADD COMMENT</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #comment let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="comment-modal">Add Comment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formComment" (ngSubmit)="onCommentSubmit(openedAppointmentId)">
+        <div class="form-group">
+          <label for="comment"> Comments:</label>
+          <div class="input-group">
+            <textarea id="comment" class="form-control" formControlName="comment"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+</div>
+
+
+<!--FOR USER-->
+<div *ngIf="currentUser && roleId>2">
+  <h2>My Appointments</h2>
+  <button class="btn btn-primary" (click)="open(content)">Set an Appointment</button>
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="appointments">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time Slot</th>
+        <th>Appointment Type</th>
+        <th>Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.AppointmentDate }}</td>
+        <td>{{ appointment.DisplayTime }}</td>
+        <td>{{ appointment.Title }}</td>
+        <td>{{ appointment.Comment }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">New Appointment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{dropDownValue}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <input type="button" name="1" (click)="onSelectFromDropdown('Select Type of Appointment')" value="Select Type of Appointment" ngbDropdownItem>
+              <input type="button" name="1" (click)="onSelectFromDropdown('General Check-Ups')" value="General Check-Ups" ngbDropdownItem>
+              <input type="button" name="2" (click)="onSelectFromDropdown('Skin Cancer Checks')" value="Skin Cancer Checks" ngbDropdownItem>
+            </div>
+          </div>
+          <input type="text" hidden name="appointmentType" [ngModel]="dropDownValue" formControlName="appointmentType" />
+          <div class="alert alert alert-danger" *ngIf="!appointmentType.valid && userSubmitted">
+            Please fill up the text Box.
+          </div>
+          <br />
+          <br />
+          <label>Select Date:</label>
+          <br />
+          <div class="input-group">
+
+            <input class="form-control" placeholder="yyyy-mm-dd" formControlName="appointmentDate"
+                   name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" [minDate]="filteredDate">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Select Date</button>
+            </div>
+            <br />
+          </div>
+          <div class="alert alert alert-danger" *ngIf="!appointmentDate.valid && userSubmitted">
+            Please Select Date
+          </div>
+          <br />
+          <input type="text" hidden name="appointmentTime" [ngModel]="timeValue" formControlName="appointmentTime" />
+          <div class="btn-group" (click)="onButtonGroupClick($event)">
+            <button class="btn btn-outline-primary" id="btnTime1" (click)="onSelectTime(1)">8:00 AM</button>
+            <button class="btn btn-outline-primary" id="btnTime2" (click)="onSelectTime(2)">9:00 AM</button>
+            <button class="btn btn-outline-primary" id="btnTime3" (click)="onSelectTime(3)">10:00 AM</button>
+            <button class="btn btn-outline-primary" id="btnTime4" (click)="onSelectTime(4)">11:00 AM</button>
+            <button class="btn btn-outline-primary" id="btnTime5" (click)="onSelectTime(5)">12:00 PM</button>
+            <button class="btn btn-outline-primary" id="btnTime6" (click)="onSelectTime(6)">1:00 PM</button>
+            <button class="btn btn-outline-primary" id="btnTime1" (click)="onSelectTime(7)">2:00 PM</button>
+            <button class="btn btn-outline-primary" id="btnTime7" (click)="onSelectTime(8)">3:00 PM</button>
+            <button class="btn btn-outline-primary" id="btnTime9" (click)="onSelectTime(9)">4:00 PM</button>
+          </div>
+          <div class="alert alert alert-danger" *ngIf="!appointmentTime.valid && userSubmitted">
+            Please Select Time Slot
+          </div>
+          <br />
+          <br />
+          <!--<label for="firstname">Request or Comments:</label>
+          <div class="input-group">
+            <input id="description" class="form-control" formControlName="description">
+          </div>-->
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+</div>
